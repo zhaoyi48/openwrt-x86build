@@ -1,5 +1,5 @@
 # openwrt-x86build
-构建集成openclash
+构建集成openclash，本文档不局限于x86架构构建
 ## 如何配置
 1. 获取现有openwrt已安装的package
 ```
@@ -14,6 +14,11 @@ echo $(opkg list-installed --strip-abi | sed -e "s/\s.*$//")
 - rootfs_size
 - kernel_size
 - packages
+- tar压缩文件路径
+- path
+
+## 相关参考
+[Using the Image Builder](https://openwrt.org/docs/guide-user/additional-software/imagebuilder)
 
 ## 注意
 1. 由于openclash依赖dnsmasq-full，需要在packages中剔除dnsmasq(-dnsmasq)
