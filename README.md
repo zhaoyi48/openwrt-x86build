@@ -1,5 +1,7 @@
 # openwrt-x86build
-构建集成openclash，本文档不局限于x86架构构建
+构建集成openclash
+本文档不局限于x86架构构建
+
 ## 如何配置
 1. 获取现有openwrt已安装的package
 ```
