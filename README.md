@@ -24,6 +24,7 @@ echo $(opkg list-installed --strip-abi | sed -e "s/\s.*$//")
 
 ## 相关参考
 [Using the Image Builder](https://openwrt.org/docs/guide-user/additional-software/imagebuilder)
+
 [OpenClash依赖](https://github.com/vernesong/OpenClash)
 
 ## 注意
