@@ -16,21 +16,71 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  build_image:
+    name: Build Image
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    container: 
+      image: openwrtorg/imagebuilder:x86-64-master
+    defaults:
+      run:
+        shell: bash
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+    - uses: actions/checkout@v3
+    - name: Install Package
+      run: |
+        sudo apt update
+        sudo apt install jq
+    - name: Download ipk
+      run: sh download.sh
+    - name: Move ipk
+      run: mv luci-app-openclash.ipk /home/build/openwrt/packages
+    - name: Make Image
+      env:
+        rootfs_size: 2048
+        kernel_size: 512
+        profile: generic
+        packages: amd64-microcode base-files bash bnx2-firmware bridge busybox bzip2 ca-bundle ca-certificates 
+                cgi-io coreutils coreutils-nohup curl dnsmasq-full dropbear e2fsprogs file firewall frpc frps 
+                fstools fwtool getrandom golang golang-src grub2 grub2-efi gzip htop hwinfo intel-microcode ip-full 
+                ip6tables iperf iperf3 ipset iptables iptables-mod-extra iptables-mod-tproxy ip6tables-mod-nat 
+                jshn jsonfilter kernel keyctl keyutils kmod-asn1-decoder kmod-ata-core kmod-bnx2 kmod-inet-diag 
+                kmod-button-hotplug kmod-crypto-acompress kmod-crypto-aead kmod-crypto-authenc kmod-crypto-crc32c 
+                kmod-crypto-ctr kmod-crypto-gcm kmod-crypto-gf128 kmod-crypto-ghash kmod-crypto-hash kmod-crypto-hmac 
+                kmod-crypto-hw-ccp kmod-crypto-kpp kmod-crypto-lib-blake2s kmod-crypto-lib-chacha20 kmod-crypto-lib-chacha20poly1305 
+                kmod-crypto-lib-curve25519 kmod-crypto-lib-poly1305 kmod-crypto-manager kmod-crypto-md4 kmod-crypto-md5 
+                kmod-crypto-null kmod-crypto-pcompress kmod-crypto-rng kmod-crypto-rsa kmod-crypto-seqiv kmod-crypto-sha1 
+                kmod-crypto-sha256 kmod-crypto-sha512 kmod-e1000 kmod-e1000e kmod-forcedeth kmod-fs-ext4 kmod-fs-vfat kmod-geneve 
+                kmod-gre kmod-hwmon-core kmod-hwmon-drivetemp kmod-i2c-algo-bit kmod-i2c-core kmod-igb kmod-igc kmod-input-core 
+                kmod-ip6tables kmod-ipt-conntrack kmod-ipt-conntrack-extra kmod-ipt-core kmod-ipt-extra kmod-ipt-ipset kmod-ipt-nat 
+                kmod-nft-tproxy kmod-ipt-offload kmod-ipt-tproxy kmod-iptunnel kmod-ixgbe kmod-lib-crc-ccitt kmod-lib-crc16 kmod-lib-crc32c 
+                kmod-lib-lzo kmod-libphy kmod-mdio kmod-mii kmod-mlx4-core kmod-mlx5-core kmod-mmc kmod-nf-conntrack kmod-nf-conntrack-netlink 
+                kmod-nf-conntrack6 kmod-nf-flow kmod-nf-ipt kmod-nf-ipt6 kmod-nf-nat kmod-nf-nat6 kmod-nf-reject kmod-nf-reject6 kmod-nfnetlink 
+                kmod-nls-base kmod-nls-cp437 kmod-nls-iso8859-1 kmod-nls-utf8 kmod-nsh kmod-openvswitch kmod-openvswitch-geneve kmod-openvswitch-gre 
+                kmod-openvswitch-vxlan kmod-phy-realtek kmod-ppp kmod-pppoe kmod-pppox kmod-pps kmod-ptp kmod-r8169 kmod-random-core kmod-scsi-core 
+                kmod-slhc kmod-swconfig kmod-tcp-bbr kmod-tcp-hybla kmod-tun kmod-udptunnel4 kmod-udptunnel6 kmod-usb-core kmod-usb-ehci kmod-usb-net 
+                kmod-usb-storage kmod-usb-storage-extras kmod-usb-storage-uas kmod-usb-uhci kmod-usb-wdm kmod-usb2 kmod-usb2-pci kmod-usb3 kmod-vxlan 
+                kmod-wireguard kmod-zram libblkid1 libblobmsg-json20210516 libbpf0 libbz2-1.0 libc libcap libcap-bin libcomerr0 libcurl4 libdb47 libelf1 
+                libevent2-7 libext2fs2 libf2fs6 libgcc1 libgd libgmp10 libip4tc2 libip6tc2 libipset13 libiwinfo-data libiwinfo-lua libiwinfo20210430 
+                libjpeg-turbo libjson-c5 libjson-script20210516 libkeyutils1 liblua5.1.5 liblucihttp-lua liblucihttp0 liblz4-1 liblzma libmagic libmnl0 
+                libncurses6 libnetfilter-conntrack3 libnettle8 libnfnetlink0 libnghttp2-14 libnl-tiny1 libopenssl1.1 libpcap1 libpcre libpng libpthread 
+                libreadline8 librt libruby3.0 libsmartcols1 libss2 libubox20210516 libubus-lua libubus20210630 libuci20130104 libuclient20201210 libustream-wolfssl20201210 
+                libuuid1 libuv1 libwebp libwolfssl5.1.1.7a924b25 libwolfssl5.1.1.99a5b54a libxtables12 libyaml libzip-openssl libzstd logd lscpu lua luci luci-app-acl 
+                luci-app-firewall luci-app-frpc luci-app-frps luci-app-ntpc luci-app-openclash luci-app-opkg luci-app-smartdns luci-app-wireguard luci-base luci-compat 
+                luci-i18n-acl-en luci-i18n-acl-zh-cn luci-i18n-acl-zh-tw luci-i18n-base-en luci-i18n-base-zh-cn luci-i18n-base-zh-tw luci-i18n-firewall-en luci-i18n-firewall-zh-cn 
+                luci-i18n-firewall-zh-tw luci-i18n-frpc-en luci-i18n-frpc-zh-cn luci-i18n-frpc-zh-tw luci-i18n-frps-en luci-i18n-frps-zh-cn luci-i18n-frps-zh-tw luci-i18n-ntpc-en 
+                luci-i18n-ntpc-zh-cn luci-i18n-ntpc-zh-tw luci-i18n-opkg-en luci-i18n-opkg-zh-cn luci-i18n-opkg-zh-tw luci-i18n-smartdns-zh-cn luci-i18n-wireguard-en luci-i18n-wireguard-zh-cn 
+                luci-i18n-wireguard-zh-tw luci-lib-base luci-lib-ip luci-lib-json luci-lib-jsonc luci-lib-nixio luci-mod-admin-full luci-mod-dashboard luci-mod-network luci-mod-rpc 
+                luci-mod-status luci-mod-system luci-proto-ipv6 luci-proto-ppp luci-proto-wireguard luci-ssl luci-theme-bootstrap luci-theme-material luci-theme-openwrt luci-theme-openwrt-2020 lz4 
+                mkf2fs mtd nano netdata netifd ntpclient odhcp6c odhcpd-ipv6only openwrt-keyring opkg partx-utils ppp ppp-mod-pppoe procd procps-ng procps-ng-ps px5g-wolfssl r8169-firmware 
+                resize2fs rpcd rpcd-mod-file rpcd-mod-iwinfo rpcd-mod-luci rpcd-mod-rrdns ruby ruby-bigdecimal ruby-date ruby-dbm ruby-digest ruby-enc ruby-forwardable ruby-pstore ruby-psych 
+                ruby-stringio ruby-strscan ruby-yaml smartdns swconfig tar terminfo tmux ubox ubus ubusd uci uclibcxx uclient-fetch uhttpd uhttpd-mod-ubus unzip urandom-seed urngd usign vim 
+                wget-ssl whois wireguard-tools xz xz-utils zlib zoneinfo-africa zoneinfo-asia zoneinfo-atlantic zoneinfo-australia-nz zoneinfo-core zoneinfo-europe zoneinfo-india 
+                zoneinfo-northamerica zoneinfo-pacific zoneinfo-poles zoneinfo-simple zoneinfo-southamerica zram-swap
+      run: |
+        sed -i "s/CONFIG_TARGET_ROOTFS_PARTSIZE=[0-9]\+/CONFIG_TARGET_ROOTFS_PARTSIZE=${{ env.rootfs_size }}/g;s/CONFIG_TARGET_KERNEL_PARTSIZE=[0-9]\+/CONFIG_TARGET_KERNEL_PARTSIZE=${{ env.kernel_size }}/g" .config
+        make image PROFILE=${{ env.profile }} PACKAGES="${{ env.packages }}"
+        tar zcvf openwrt-x86-64-master.tar.gz bin/targets/x86/64/*
+    - uses: actions/upload-artifact@v3
+      with:
+          name: openwrt
+          path: openwrt-x86-64-master.tar.gz
