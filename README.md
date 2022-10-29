@@ -12,7 +12,7 @@ echo $(opkg list-installed --strip-abi | sed -e "s/\s.*$//")
 2. 选择image
 - [openwrtorg/imagebuilder](https://hub.docker.com/r/openwrtorg/imagebuilder/tags)
 
-3. 设置相关action-yaml参数值
+3. 设置相关action-yml参数值
 - image
 - rootfs_size
 - kernel_size
