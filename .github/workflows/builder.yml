@@ -30,7 +30,7 @@ jobs:
     - name: Install Package
       run: |
         sudo apt update
-        sudo apt install jq
+        sudo apt install -y jq
     - name: Download ipk
       run: sh download.sh
     - name: Move ipk
