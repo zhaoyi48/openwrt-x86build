@@ -19,6 +19,8 @@ echo $(opkg list-installed --strip-abi | sed -e "s/\s.*$//")
 - tar压缩文件路径
 - path
 
+4. 执行构建，并获取管道构建文件
+
 ## 相关参考
 [Using the Image Builder](https://openwrt.org/docs/guide-user/additional-software/imagebuilder)
 
