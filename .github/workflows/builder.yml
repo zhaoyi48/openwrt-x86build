@@ -38,7 +38,7 @@ jobs:
         mv luci-app-openclash.ipk /home/build/openwrt/packages
     - name: Make Image
       env:
-        rootfs_size: 2048
+        rootfs_size: 1024
         kernel_size: 256
         profile: generic
         packages: amd64-microcode base-files bash bnx2-firmware bridge busybox bzip2 ca-bundle 
