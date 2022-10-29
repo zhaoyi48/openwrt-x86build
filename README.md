@@ -24,6 +24,7 @@ echo $(opkg list-installed --strip-abi | sed -e "s/\s.*$//")
 
 ## 相关参考
 [Using the Image Builder](https://openwrt.org/docs/guide-user/additional-software/imagebuilder)
+[OpenClash依赖](https://github.com/vernesong/OpenClash)
 
 ## 注意
 1. 由于openclash依赖dnsmasq-full，需要在packages中剔除dnsmasq(-dnsmasq)
