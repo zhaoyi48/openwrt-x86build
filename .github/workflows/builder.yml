@@ -79,6 +79,7 @@ jobs:
                 wget-ssl whois wireguard-tools xz xz-utils zlib zoneinfo-africa zoneinfo-asia zoneinfo-atlantic zoneinfo-australia-nz zoneinfo-core zoneinfo-europe zoneinfo-india 
                 zoneinfo-northamerica zoneinfo-pacific zoneinfo-poles zoneinfo-simple zoneinfo-southamerica zram-swap
       run: |
+        cd /home/build/openwrt
         chown -R build:build /home/build/openwrt/packages
         sudo -u build sed -i "s/CONFIG_TARGET_ROOTFS_PARTSIZE=[0-9]\+/CONFIG_TARGET_ROOTFS_PARTSIZE=${{ env.rootfs_size }}/g;s/CONFIG_TARGET_KERNEL_PARTSIZE=[0-9]\+/CONFIG_TARGET_KERNEL_PARTSIZE=${{ env.kernel_size }}/g" .config
         sudo -u build make image PROFILE=${{ env.profile }} PACKAGES="${{ env.packages }}"
@@ -86,4 +87,4 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
           name: openwrt
-          path: openwrt-x86-64-master.tar.gz
+          path: /home/build/openwrt/openwrt-x86-64-master.tar.gz
