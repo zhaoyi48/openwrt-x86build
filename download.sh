@@ -10,6 +10,6 @@ download_latest_release() {
 }
 
 PROJECT="vernesong/OpenClash"
-FILE_PATTERN="*.ipk"
+FILE_PATTERN="luci-app-openclash"
 FILE_NAME="luci-app-openclash.ipk"
 download_latest_release $PROJECT $FILE_PATTERN $FILE_NAME
