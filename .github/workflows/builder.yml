@@ -20,7 +20,7 @@ jobs:
     name: Build Image
     runs-on: ubuntu-latest
     container: 
-      image: openwrtorg/imagebuilder:x86-64-22.03.2
+      image: openwrtorg/imagebuilder:x86-64-22.03.3
       options: --user root
     defaults:
       run:
